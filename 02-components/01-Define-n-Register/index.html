@@ -5,21 +5,30 @@
 </head>
 <body>
 
+<template id="v-cat-template">
+  <figure>
+    <img :src="'https://cataas.com/cat?height=200&random=' + random" alt="Random cat 1">
+    <figcaption>Cat #{{ random }}</figcaption>
+  </figure>
+</template>
+
+<script id="v-cat-x-template" type="text/x-template">
+  <figure>
+    <img :src="'https://cataas.com/cat?height=200&random=' + random" alt="Random cat 1">
+    <figcaption>Cat #{{ random }}</figcaption>
+  </figure>
+</script>
+
 <main id="app">
-  <figure>
-    <img :src="`https://cataas.com/cat?height=200&random=${cats[0]}`" alt="Random cat 1">
-    <figcaption>Cat #{{ cats[0] }}</figcaption>
-  </figure>
+  <v-cat></v-cat>
 
-  <figure>
-    <img :src="`https://cataas.com/cat?height=200&random=${cats[1]}`" alt="Random cat 2">
-    <figcaption>Cat #{{ cats[1] }}</figcaption>
-  </figure>
+  <v-cat2></v-cat2>
 
-  <figure>
-    <img :src="`https://cataas.com/cat?height=200&random=${cats[2]}`" alt="Random cat 3">
-    <figcaption>Cat #{{ cats[2] }}</figcaption>
-  </figure>
+  <v-cat3></v-cat3>
+
+  <v-cat4></v-cat4>
+
+  <v-cat5></v-cat5>
 </main>
 
 <script type="module" src="./script.js"></script>
