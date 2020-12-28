@@ -4,6 +4,7 @@
       class="form-control"
       :class="{ 'form-control_rounded': rounded }"
       :value="value"
+      :type="type"
       @input="$emit('input', $event.target.value)"
     />
   </div>
