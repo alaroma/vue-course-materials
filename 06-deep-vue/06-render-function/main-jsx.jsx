@@ -6,7 +6,7 @@ const TextDiv = {
   // template: '<div>Text</div>',
 
   render(h) {
-    return h('div', 'Text');
+    return <div>Text</div>;
   },
 };
 
@@ -16,7 +16,7 @@ const ParagraphComponent = {
   // template: '<p><slot /></p>',
 
   render(h) {
-    return h('p', this.$slots.default);
+    return <p>{this.$slots.default}</p>;
   },
 };
 
@@ -34,16 +34,10 @@ const CounterButton = {
   },
 
   render(h) {
-    return h(
-      'button',
-      {
-        on: {
-          click: () => {
-            this.$emit('change', this.count + 1);
-          },
-        },
-      },
-      this.count,
+    return (
+      <button onClick={this.$emit('change', this.count + 1)}>
+        {this.count}
+      </button>
     );
   },
 };
@@ -51,14 +45,15 @@ const CounterButton = {
 const App = {
   name: 'App',
 
-  // template: `<paragraph-component>
-  //   <text-div />
-  //   <counter-button v-model="count" />
-  // </paragraph-component>`,
+  template: `<paragraph-component>
+    <text-div />
+    <counter-button v-model="count" />
+  </paragraph-component>`,
 
   components: {
-    // ParagraphComponent,
-    // TextDiv,
+    ParagraphComponent,
+    TextDiv,
+    CounterButton,
   },
 
   data() {
@@ -68,20 +63,11 @@ const App = {
   },
 
   render(h) {
-    const counterButton = h(CounterButton, {
-      props: {
-        count: this.count,
-      },
-      on: {
-        change: ($event) => {
-          this.count = $event;
-        },
-      },
-    });
+    const counterButton = <CounterButton vModel={this.count} />;
 
-    const content = [h(TextDiv), counterButton];
+    const content = [<TextDiv />, counterButton];
 
-    return h(ParagraphComponent, content);
+    return <ParagraphComponent>{content}</ParagraphComponent>;
   },
 };
 
