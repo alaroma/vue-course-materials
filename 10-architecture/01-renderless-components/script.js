@@ -108,6 +108,55 @@ const ListViewWithSlots = {
   },
 };
 
+const RenderlessListView = {
+  props: {
+    items: Array,
+  },
+
+  data() {
+    return {
+      items_: [],
+      newItemValue: '',
+    };
+  },
+
+  watch: {
+    items: {
+      deep: true,
+      immediate: true,
+      handler(newItemValue) {
+        this.items_ = [...newItemValue];
+      },
+    },
+  },
+
+  methods: {
+    addNewItem() {
+      this.items_.push(this.newItemValue);
+      this.newItemValue = '';
+      this.$emit('update:items', [...this.items_]);
+    },
+
+    remove(idx) {
+      this.items_.splice(idx, 1);
+      this.$emit('update:items', [...this.items_]);
+    },
+  },
+
+  render() {
+    return this.$scopedSlots.default({
+      items: this.items_,
+      newItemValue: this.newItemValue,
+      updateNewItemValue: (value) => {
+        this.newItemValue = value;
+      },
+      add: this.addNewItem,
+      remove: this.remove,
+    });
+  },
+};
+
+
 const App = {
   template: `
     <div>
@@ -130,11 +179,28 @@ const App = {
         </template>
 
       </list-view>
+
+      <hr>
+
+      <h3>Renderless List View</h3>
+      <renderless-list-view :items.sync="list" v-slot="{ add, remove, items, newItemValue, updateNewItemValue }">
+        <div>
+          <ul>
+            <li v-for="(item, index) in items" :key="item" @click="remove(index)">
+              {{ item }}
+            </li>
+          </ul>
+          <form @submit.prevent="add()">
+            <input :value="newItemValue" @input="updateNewItemValue($event.target.value)" />
+          </form>
+        </div>
+      </renderless-list-view>
     </div>`,
 
   components: {
     ListView,
     ListViewWithSlots,
+    RenderlessListView,
   },
 
   data() {
